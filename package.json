@@ -1,0 +1,32 @@
+{
+  "name": "city-reporter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run start-json-server\" \"next dev\"",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "start-json-server": "npx json-server --watch data/db.json --port 3001"
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.14",
+    "@mui/material-nextjs": "^5.15.11",
+    "next": "14.1.4",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.0.1",
+    "concurrently": "^8.2.2",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
+    "json-server": "^1.0.0-alpha.23",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0"
+  }
+}

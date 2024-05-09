@@ -1,0 +1,71 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "username1",
+            "email": "user1@example.com",
+            "password": "password1",
+            "role": "user"
+        },
+        {
+            "id": 2,
+            "name": "username2",
+            "email": "user2@example.com",
+            "password": "password2",
+            "role": "user"
+        },
+        {
+            "id": 3,
+            "name": "username3",
+            "email": "user3@example.com",
+            "password": "password3",
+            "role": "admin"
+        }
+    ],
+    "reports": [
+        {
+            "id": 1,
+            "title": "Report 1",
+            "image": "base64-encoded-image-data",
+            "description": "Lorem ipsum dolor sit amet.",
+            "location": "Location 1",
+            "status": "pending"
+        },
+        {
+            "id": 2,
+            "title": "Report 2",
+            "image": "base64-encoded-image-data",
+            "description": "Consectetur adipiscing elit.",
+            "location": "Location 2",
+            "status": "approved"
+        },
+        {
+            "id": 3,
+            "title": "Report 3",
+            "image": "base64-encoded-image-data",
+            "description": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "location": "Location 3",
+            "status": "rejected"
+        }
+    ],
+    "comments": [
+        {
+            "userId": 2,
+            "reportId": 1,
+            "postedOn": "2024-03-25T12:00:00Z",
+            "commentContent": "Comment 1 for Report 1"
+        },
+        {
+            "userId": 3,
+            "reportId": 1,
+            "postedOn": "2024-03-25T12:15:00Z",
+            "commentContent": "Comment 2 for Report 1"
+        },
+        {
+            "userId": 1,
+            "reportId": 2,
+            "postedOn": "2024-03-25T13:00:00Z",
+            "commentContent": "Comment 1 for Report 2"
+        }
+    ]
+}

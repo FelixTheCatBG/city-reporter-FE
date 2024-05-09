@@ -15,7 +15,7 @@ To build the project you can use this command
 ```
 npm run build
 ```
-Project board: https://github.com/users/asenata84/projects/1/views/1
+Project board: https://github.com/users/FelixTheCatBG/projects/2
 
 
 Figma designs: https://www.figma.com/file/seR7mcSDdFl53A9P79JmXO/City-Reporter?type=design&node-id=0-1&mode=design&t=9VudUrv3Hsu9mSGU-0

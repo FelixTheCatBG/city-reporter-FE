@@ -96,7 +96,9 @@ export default function SignUp() {
           <span style={{ color: 'black' }}>OR</span>
           <hr style={styles.hr} />
         </Box>
+        <Link href="/sign-in">
         <Button variant="sign in" style={styles.signInButton}>sign in</Button>
+        </Link>
       </Box>
     </div>
   );

@@ -1,8 +1,14 @@
-import Link from "next/link";
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Button from "@mui/material/Button";
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Link from "next/link";
+import { useLoginFormValidator } from "./useSignInFormValidator";
+import { authenticateUser } from './auth';
+
 
 const styles = {
   container: {
@@ -67,28 +73,109 @@ const styles = {
   },
 };
 
-export default function SignIn() {
+const SignIn = () => {
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
+
+
+
+  const { errors, validateForm, onBlurField } = useLoginFormValidator(form);
+
+  const onUpdateField = e => {
+    const { name, value } = e.target;
+    const nextFormState = {
+      ...form,
+      [name]: value,
+    };
+    setForm(nextFormState);
+    if (errors && errors[name] && errors[name].dirty)
+      validateForm({
+        form: nextFormState,
+        errors,
+        field: name,
+      })
+  };
+
+  const onSubmitForm = e => {
+    e.preventDefault();
+    console.log("Form submitted");
+
+    const { email, password } = form;
+    const authenticatedUser = authenticateUser(email, password);
+    if (authenticatedUser) {
+      console.log('User authenticated:', authenticatedUser);
+      router.push("/home-page");
+    } else {
+      setErrorMessage("Invalid email or password.");
+    }
+
+    const {isValid} = validateForm({form, errors, forceTouchErrors: true})
+    if (!isValid) return;
+  };
+
   return (
-    <div style={styles.container}>
+    <form style={styles.container} onSubmit={onSubmitForm}>
       <Box sx={styles.formContainer}>
         <h1 style={styles.title}>Sign In</h1>
-        <Box
+        <div
           component="form"
           sx={styles.form}
           noValidate
           autoComplete="off"
         >
-          <TextField id="email" label="Email..." variant="filled" sx={{ bgcolor: 'white', width: '100%', mb: 1}}/>
-          <TextField id="password" label="Password..." variant="filled" sx={{ bgcolor: 'white', width: '100%', mb: 1}}/>
-        </Box>
-        <Button variant="enter" style={styles.button}>enter</Button>
+          <TextField
+            id="email"
+            name="email"
+            label="Email..."
+            variant="filled"
+            type='text'
+            sx={{ bgcolor: 'white', width: '100%', mb: 1, ...(errors.email.dirty && errors.email.error && styles.formFieldError)}}
+            value={form.email}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+          />
+           {errors.email.dirty && errors.email.error && (
+            <p className={styles.formFieldErrorMessage}>{errors.email.message}</p>
+          )}
+          <TextField
+            id="password"
+            name='password'
+            label="Password..."
+            variant="filled"
+            type='password'
+            sx={{ bgcolor: 'white', width: '100%', mb: 1, ...(errors.email.dirty && errors.email.error && styles.formFieldError)}}
+            value={form.password}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+          />
+          {errors.password.dirty && errors.password.error && (
+            <p className={styles.formFieldErrorMessage}>{errors.password.message}</p>
+          )}
+        </div>
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        <Button
+          variant="contained"
+          type="submit"
+          style={styles.button}
+        >
+          enter
+        </Button>
         <Box sx={styles.hrContainer}>
           <hr style={styles.hr} />
           <span style={{ color: 'black' }}>OR</span>
           <hr style={styles.hr} />
         </Box>
+        <Link href="/sign-up">
         <Button variant="sign up" style={styles.signUpButton}>sign up</Button>
-      </Box>
-    </div>
+        </Link>
+        </Box>
+    </form>
   );
 }
+
+export default SignIn;

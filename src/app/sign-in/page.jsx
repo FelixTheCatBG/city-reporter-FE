@@ -71,6 +71,14 @@ const styles = {
     width: '350px',
     marginBottom: '20px',
   },
+  formFieldError: {
+    borderColor: 'red',
+  },
+  formFieldErrorMessage: {
+    color: 'red',
+    fontSize: '0.875em',
+    height: '1em',
+  },
 };
 
 const SignIn = () => {
@@ -101,21 +109,28 @@ const SignIn = () => {
       })
   };
 
-  const onSubmitForm = e => {
+  const onSubmitForm = async e => {
     e.preventDefault();
     console.log("Form submitted");
 
     const { email, password } = form;
-    const authenticatedUser = authenticateUser(email, password);
-    if (authenticatedUser) {
-      console.log('User authenticated:', authenticatedUser);
-      router.push("/home-page");
-    } else {
-      setErrorMessage("Invalid email or password.");
-    }
 
     const {isValid} = validateForm({form, errors, forceTouchErrors: true})
+
     if (!isValid) return;
+
+    try {
+      const authenticatedUser = await authenticateUser(email, password);
+      if (authenticatedUser) {
+        console.log('User authenticated:', authenticatedUser);
+        router.push("/home-page");
+      } else {
+        setErrorMessage("Invalid email or password.");
+      }
+    } catch (error) {
+      console.error('Error during authentication:', error);
+      setErrorMessage("An error occurred. Please try again.");
+    }
   };
 
   return (
@@ -138,10 +153,9 @@ const SignIn = () => {
             value={form.email}
             onChange={onUpdateField}
             onBlur={onBlurField}
+            error={errors.email.dirty && Boolean(errors.email.error)}
+            helperText={errors.email.dirty && errors.email.error ? errors.email.message : ' '}
           />
-           {errors.email.dirty && errors.email.error && (
-            <p className={styles.formFieldErrorMessage}>{errors.email.message}</p>
-          )}
           <TextField
             id="password"
             name='password'
@@ -152,10 +166,9 @@ const SignIn = () => {
             value={form.password}
             onChange={onUpdateField}
             onBlur={onBlurField}
+            error={errors.password.dirty && Boolean(errors.password.error)}
+            helperText={errors.password.dirty && errors.password.error ? errors.password.message : ' '}
           />
-          {errors.password.dirty && errors.password.error && (
-            <p className={styles.formFieldErrorMessage}>{errors.password.message}</p>
-          )}
         </div>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         <Button

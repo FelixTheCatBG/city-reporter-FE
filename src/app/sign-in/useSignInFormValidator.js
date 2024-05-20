@@ -1,105 +1,60 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { emailValidator, passwordValidator } from './validators';
 
-import {
-  emailValidator,
-  passwordValidator,
-  confirmPasswordValidator,
-} from "./validators.js";
+export const useLoginFormValidator = form => {
+  const [errors, setErrors] = useState({
+    email: { dirty: false, error: false, message: '' },
+    password: { dirty: false, error: false, message: '' },
+  });
 
-const touchErrors = errors => {
-     return Object.entries(errors).reduce((acc, [field, fieldError]) => {
-       acc[field] = {
-         ...fieldError,
-         dirty: true,
-       };
-       return acc;
-     }, {});
-   };
+  const validateForm = ({ form, errors, field, forceTouchErrors = false }) => {
+    let isValid = true;
 
-   export const useLoginFormValidator = form => {
-     const [errors, setErrors] = useState({
-       email: {
-         dirty: false,
-         error: false,
-         message: "",
-       },
-       password: {
-         dirty: false,
-         error: false,
-         message: "",
-       },
-       confirmPassword: {
-         dirty: false,
-         error: false,
-         message: "",
-       },
-     });
+    if (forceTouchErrors) {
+      Object.keys(errors).forEach(fieldName => {
+        errors[fieldName].dirty = true;
+      });
+    }
 
-     const validateForm = ({ form, field, errors, forceTouchErrors = false }) => {
-       let isValid = true;
+    if (field === 'email' || forceTouchErrors) {
+      const emailMessage = emailValidator(form.email);
+      errors.email.error = !!emailMessage;
+      errors.email.message = emailMessage;
+      isValid = !emailMessage && isValid;
+    }
 
-       const nextErrors = JSON.parse(JSON.stringify(errors));
+    if (field === 'password' || forceTouchErrors) {
+      const passwordMessage = passwordValidator(form.password);
+      errors.password.error = !!passwordMessage;
+      errors.password.message = passwordMessage;
+      isValid = !passwordMessage && isValid;
+    }
 
-       if (forceTouchErrors) {
-         let nextErrors = touchErrors(errors);
-       }
+    setErrors({ ...errors });
 
-       const { email, password, confirmPassword } = form;
+    return { isValid };
+  };
 
-       if (nextErrors.email.dirty && (field ? field === "email" : true)) {
-         const emailMessage = emailValidator(email, form);
-         nextErrors.email.error = !!emailMessage;
-         nextErrors.email.message = emailMessage;
-         if (!!emailMessage) isValid = false;
-       }
+  const onBlurField = e => {
+    const field = e.target.name;
+    const fieldError = errors[field];
 
-       if (nextErrors.password.dirty && (field ? field === "password" : true)) {
-         const passwordMessage = passwordValidator(password, form);
-         nextErrors.password.error = !!passwordMessage;
-         nextErrors.password.message = passwordMessage;
-         if (!!passwordMessage) isValid = false;
-       }
+    if (fieldError.dirty) return;
 
-       if (
-         nextErrors.confirmPassword.dirty &&
-         (field ? field === "confirmPassword" : true)
-       ) {
-         const confirmPasswordMessage = confirmPasswordValidator(
-           confirmPassword,
-           form
-         );
-         nextErrors.confirmPassword.error = !!confirmPasswordMessage;
-         nextErrors.confirmPassword.message = confirmPasswordMessage;
-         if (!!confirmPasswordMessage) isValid = false;
-       }
+    const newErrors = {
+      ...errors,
+      [field]: {
+        ...fieldError,
+        dirty: true,
+      },
+    };
 
-       setErrors(nextErrors);
+    validateForm({ form, errors: newErrors, field });
+  };
 
-       return {
-         isValid,
-         errors: nextErrors,
-       };
-     };
-
-     const onBlurField = e => {
-       const field = e.target.name;
-       const fieldError = errors[field];
-       if (fieldError.dirty) return;
-
-       const updatedErrors = {
-         ...errors,
-         [field]: {
-           ...errors[field],
-           dirty: true,
-         },
-       };
-
-       validateForm({ form, field, errors: updatedErrors });
-     };
-
-     return {
-       validateForm,
-       onBlurField,
-       errors,
-     };
-   };
+  return {
+    validateForm,
+    onBlurField,
+    errors,
+  };
+};

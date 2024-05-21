@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from "@mui/material/Button";
 import Box from '@mui/material/Box';
@@ -8,78 +8,7 @@ import TextField from '@mui/material/TextField';
 import Link from "next/link";
 import { useLoginFormValidator } from "./useSignInFormValidator";
 import { authenticateUser } from './auth';
-
-
-const styles = {
-  container: {
-    backgroundColor: 'lightgrey',
-    minHeight: '100vh',
-    color: 'black',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  formContainer: {
-    width: '450px',
-    backgroundColor: 'white',
-    borderRadius: '10px',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    margin: 'auto',
-  },
-  title: {
-    textAlign: 'left',
-    marginTop: '20px',
-    marginBottom: '20px',
-    width: '100%',
-    marginLeft: '20px',
-  },
-  form: {
-    width: '400px',
-    backgroundColor: 'white',
-    borderRadius: '10px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    margin: 'auto',
-  },
-  button: {
-    backgroundColor: '#5ceb28',
-    color: 'white',
-    width: '350px',
-    marginBottom: '10px',
-  },
-  hrContainer: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '10px 0',
-  },
-  hr: {
-    width: '35%',
-    borderBottom: '1px solid black',
-    margin: '0 10px',
-  },
-  signUpButton: {
-    backgroundColor: '#555',
-    color: 'white',
-    width: '350px',
-    marginBottom: '20px',
-  },
-  formFieldError: {
-    borderColor: 'red',
-  },
-  formFieldErrorMessage: {
-    color: 'red',
-    fontSize: '0.875em',
-    height: '1em',
-  },
-};
+import { signInStyles } from './signInStyles';
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -89,8 +18,6 @@ const SignIn = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
-
-
 
   const { errors, validateForm, onBlurField } = useLoginFormValidator(form);
 
@@ -134,12 +61,12 @@ const SignIn = () => {
   };
 
   return (
-    <form style={styles.container} onSubmit={onSubmitForm}>
-      <Box sx={styles.formContainer}>
-        <h1 style={styles.title}>Sign In</h1>
+    <form style={signInStyles.container} onSubmit={onSubmitForm}>
+      <Box sx={signInStyles.formContainer}>
+        <h1 style={signInStyles.title}>Sign In</h1>
         <div
           component="form"
-          sx={styles.form}
+          sx={signInStyles.form}
           noValidate
           autoComplete="off"
         >
@@ -149,7 +76,7 @@ const SignIn = () => {
             label="Email..."
             variant="filled"
             type='text'
-            sx={{ bgcolor: 'white', width: '100%', mb: 1, ...(errors.email.dirty && errors.email.error && styles.formFieldError)}}
+            sx={{ bgcolor: 'white', width: '100%', mb: 1, ...(errors.email.dirty && errors.email.error && signInStyles.formFieldError)}}
             value={form.email}
             onChange={onUpdateField}
             onBlur={onBlurField}
@@ -162,7 +89,7 @@ const SignIn = () => {
             label="Password..."
             variant="filled"
             type='password'
-            sx={{ bgcolor: 'white', width: '100%', mb: 1, ...(errors.email.dirty && errors.email.error && styles.formFieldError)}}
+            sx={{ bgcolor: 'white', width: '100%', mb: 1, ...(errors.email.dirty && errors.email.error && signInStyles.formFieldError)}}
             value={form.password}
             onChange={onUpdateField}
             onBlur={onBlurField}
@@ -174,19 +101,19 @@ const SignIn = () => {
         <Button
           variant="contained"
           type="submit"
-          style={styles.button}
+          style={signInStyles.button}
         >
           enter
         </Button>
-        <Box sx={styles.hrContainer}>
-          <hr style={styles.hr} />
+        <Box sx={signInStyles.hrContainer}>
+          <hr style={signInStyles.hr} />
           <span style={{ color: 'black' }}>OR</span>
-          <hr style={styles.hr} />
+          <hr style={signInStyles.hr} />
         </Box>
         <Link href="/sign-up">
-        <Button variant="sign up" style={styles.signUpButton}>sign up</Button>
+          <Button variant="sign up" style={signInStyles.signUpButton}>sign up</Button>
         </Link>
-        </Box>
+      </Box>
     </form>
   );
 }

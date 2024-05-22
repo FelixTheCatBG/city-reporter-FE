@@ -1,12 +1,12 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import { cardContainer, image, titleStyle } from './reportCardStyles';
+import styles from './reportCardStyles';
 
 const ReportCard = ({ imageUrl, title }) => {
   return (
-    <Box sx={cardContainer}>
-      <image src={imageUrl} alt="Report Image" style={image} />
-      <h2 style={titleStyle}>{title}</h2>
+    <Box sx={styles.cardContainer}>
+      <image src={imageUrl} alt="Report Image" style={styles.image} />
+      <h2 style={styles.title}>{title}</h2>
     </Box>
   );
 }

@@ -1,5 +1,5 @@
 
-export const signUpStyles = {
+export const styles = {
      container: {
           backgroundColor: 'lightgrey',
           minHeight: '100vh',
@@ -61,3 +61,5 @@ export const signUpStyles = {
           marginBottom: '20px',
      },
    };
+
+export default styles;

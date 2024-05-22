@@ -5,14 +5,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ReportCard from '../components/report-card';
 import db from '/data/db.json';
-import {
-  containerStyles,
-  searchContainerStyles,
-  searchInputStyles,
-  goButtonStyles,
-  createButtonStyles,
-  gridContainerStyles,
-} from './homePageStyle';
+import styles from './homePageStyle';
 
 const HomePage = () => {
   const [mounted, setMounted] = useState(false);
@@ -25,14 +18,14 @@ const HomePage = () => {
   return (
     <div>
       {mounted && (
-        <Box sx={containerStyles}>
-          <Box sx={searchContainerStyles}>
-            <TextField id="search" label="Search" variant="outlined" size="small" sx={searchInputStyles} />
-            <Button variant="contained" sx={goButtonStyles}>GO</Button>
-            <Button variant="contained" sx={createButtonStyles}>CREATE NEW</Button>
+        <Box sx={styles.container}>
+          <Box sx={styles.searchContainer}>
+            <TextField id="search" label="Search" variant="outlined" size="small" sx={styles.searchInput} />
+            <Button variant="contained" sx={styles.goButton}>GO</Button>
+            <Button variant="contained" sx={styles.createButton}>CREATE NEW</Button>
           </Box>
 
-          <Box sx={gridContainerStyles}>
+          <Box sx={styles.gridContainer}>
             {reportData.map((report) => (
               <ReportCard key={report.id} imageUrl={report.image} title={report.title} />
             ))}

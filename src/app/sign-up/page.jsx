@@ -3,16 +3,16 @@ import Button from "@mui/material/Button";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { signUpStyles } from "./signUpStyles";
+import styles from "./signUpStyles";
 
 export default function SignUp() {
   return (
-    <div style={signUpStyles.container} className="Sign Up">
-      <Box sx={signUpStyles.formContainer}>
-        <h1 style={signUpStyles.title}>Sign Up</h1>
+    <div style={styles.container} className="Sign Up">
+      <Box sx={styles.formContainer}>
+        <h1 style={styles.title}>Sign Up</h1>
         <Box
           component="form"
-          sx={signUpStyles.form}
+          sx={styles.form}
           noValidate
           autoComplete="off"
         >
@@ -21,14 +21,14 @@ export default function SignUp() {
           <TextField id="password" label="Password..." variant="filled" sx={{ bgcolor: 'white', width: '100%', mb: 1 }} />
           <TextField id="passwordAgain" label="Password again..." variant="filled" sx={{ bgcolor: 'white', width: '100%', mb: 1 }} />
         </Box>
-        <Button variant="create" style={signUpStyles.button}>create</Button>
-        <Box sx={signUpStyles.hrContainer}>
-          <hr style={signUpStyles.hr} />
+        <Button variant="create" style={styles.button}>create</Button>
+        <Box sx={styles.hrContainer}>
+          <hr style={styles.hr} />
           <span style={{ color: 'black' }}>OR</span>
-          <hr style={signUpStyles.hr} />
+          <hr style={styles.hr} />
         </Box>
         <Link href="/sign-in">
-        <Button variant="sign in" style={signUpStyles.signInButton}>sign in</Button>
+        <Button variant="sign in" style={styles.signInButton}>sign in</Button>
         </Link>
       </Box>
     </div>

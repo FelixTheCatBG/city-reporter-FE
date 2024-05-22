@@ -1,53 +1,121 @@
-import Link from "next/link";
+"use client";
+
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Button from "@mui/material/Button";
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import Link from "next/link";
+import { useLoginFormValidator } from "./useSignInFormValidator";
+import { authenticateUser } from './auth';
+import { signInStyles } from './signInStyles';
 
-export default function SignIn() {
+const SignIn = () => {
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
+
+  const { errors, validateForm, onBlurField } = useLoginFormValidator(form);
+
+  const onUpdateField = e => {
+    const { name, value } = e.target;
+    const nextFormState = {
+      ...form,
+      [name]: value,
+    };
+    setForm(nextFormState);
+    if (errors && errors[name] && errors[name].dirty)
+      validateForm({
+        form: nextFormState,
+        errors,
+        field: name,
+      })
+  };
+
+  const onSubmitForm = async e => {
+    e.preventDefault();
+    console.log("Form submitted");
+
+    const { email, password } = form;
+
+    const {isValid} = validateForm({form, errors, forceTouchErrors: true})
+
+    if (!isValid) return;
+
+    try {
+      const authenticatedUser = await authenticateUser(email, password);
+      if (authenticatedUser) {
+        console.log('User authenticated:', authenticatedUser);
+        router.push("/home-page");
+      } else {
+        setErrorMessage("Invalid email or password.");
+      }
+    } catch (error) {
+      console.error('Error during authentication:', error);
+      setErrorMessage("An error occurred. Please try again.");
+    }
+  };
+
   return (
-     <div className = "Sign In" style={{ backgroundColor: 'lightgrey', minHeight: '100vh', color: 'black', display: 'flex', flexDirection: 'column' }}>
-     <Box
-     sx={{
-          width: '450px',
-          backgroundColor: 'white',
-          borderRadius: '10px',
-          boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '20px',
-          margin: 'auto',
-      }}
-     >
-     <h1 style={{ textAlign: 'left', marginTop: '20px', marginBottom: '20px', width: '100%', paddingLeft: '28px'}}>Sign In</h1>
-     <Box
-     component="form"
-     sx={{
-          width: '400px',
-          backgroundColor: 'white',
-          borderRadius: '10px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '20px',
-          margin: 'auto',
-     }}
-     noValidate
-     autoComplete="off"
-   >
-     <TextField id="email" label="Email..." variant="filled" sx={{ bgcolor: 'white', width: '100%', mb: 1}}/>
-     <TextField id="password" label="Password..." variant="filled" sx={{ bgcolor: 'white', width: '100%', mb: 1}}/>
-   </Box>
-   <Button variant="enter" style={{ backgroundColor: '#5ceb28', color: 'white', width: '350px' }}>enter</Button>
-   <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', my: 2 }}>
-          <hr style={{ width: '35%', borderBottom: '1px solid black', margin: '0 10px' }} />
+    <form style={signInStyles.container} onSubmit={onSubmitForm}>
+      <Box sx={signInStyles.formContainer}>
+        <h1 style={signInStyles.title}>Sign In</h1>
+        <div
+          component="form"
+          sx={signInStyles.form}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            id="email"
+            name="email"
+            label="Email..."
+            variant="filled"
+            type='text'
+            sx={{ bgcolor: 'white', width: '100%', mb: 1, ...(errors.email.dirty && errors.email.error && signInStyles.formFieldError)}}
+            value={form.email}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            error={errors.email.dirty && Boolean(errors.email.error)}
+            helperText={errors.email.dirty && errors.email.error ? errors.email.message : ' '}
+          />
+          <TextField
+            id="password"
+            name='password'
+            label="Password..."
+            variant="filled"
+            type='password'
+            sx={{ bgcolor: 'white', width: '100%', mb: 1, ...(errors.email.dirty && errors.email.error && signInStyles.formFieldError)}}
+            value={form.password}
+            onChange={onUpdateField}
+            onBlur={onBlurField}
+            error={errors.password.dirty && Boolean(errors.password.error)}
+            helperText={errors.password.dirty && errors.password.error ? errors.password.message : ' '}
+          />
+        </div>
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        <Button
+          variant="contained"
+          type="submit"
+          style={signInStyles.button}
+        >
+          enter
+        </Button>
+        <Box sx={signInStyles.hrContainer}>
+          <hr style={signInStyles.hr} />
           <span style={{ color: 'black' }}>OR</span>
-          <hr style={{ width: '35%', borderBottom: '1px solid black', margin: '0 10px' }} />
+          <hr style={signInStyles.hr} />
         </Box>
-   <Button variant="sign up" style={{ backgroundColor: '#555', color: 'white', width: '350px', marginBottom: '20px' }}>sign up</Button>
-   </Box>
-   </div>
+        <Link href="/sign-up">
+          <Button variant="sign up" style={signInStyles.signUpButton}>sign up</Button>
+        </Link>
+      </Box>
+    </form>
   );
 }
 
+export default SignIn;

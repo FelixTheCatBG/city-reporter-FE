@@ -11,17 +11,18 @@ const HomePage = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchReports = async () => {
+    try {
+      const data = await getReports();
+      setReports(data);
+    }  catch (error) {
+      console.error('Error fetching reports:', error);
+    } finally{
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchReports = async () => {
-      try {
-        const data = await getReports();
-        setReports(data);
-      }  catch (error) {
-        console.error('Error fetching reports:', error);
-      } finally{
-        setLoading(false);
-      }
-    };
 
     fetchReports();
   }, []);

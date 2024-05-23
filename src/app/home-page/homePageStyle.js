@@ -1,5 +1,3 @@
-import { borderRadius, textAlign } from "@mui/system";
-
 const styles = {
   container: {
     backgroundColor: 'lightgrey',

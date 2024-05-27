@@ -1,13 +1,12 @@
 const express = require('express');
-const budyParse = rewuire('body-parse');
-const fs = required('fs');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(body.budyParse.json());
+app.use(express.json());
 
-app.post('./reports', (req, res) => {
+app.post('/reports', (req, res) => {
      try{
           const rawData = fs.readFileSync('db.json');
           let data = JSON.parse(rawData);
@@ -31,8 +30,8 @@ app.post('./reports', (req, res) => {
           console.log('Error saving report', error);
           res.status(500).json({ message: 'Internal server error' });
      }
+});
 
-     app.listen(PORT, () => {
-          console.log('Server is running on http://localhost:${PORT}');
-     })
+app.listen(PORT, () => {
+     console.log('Server is running on http://localhost:${PORT}');
 });

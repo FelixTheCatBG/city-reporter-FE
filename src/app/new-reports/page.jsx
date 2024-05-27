@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Link from "next/link";
 import axios from 'axios';
 import styles from './newReportStyles';
+import submitReport from './newReportService';
 
 
 
@@ -33,7 +34,6 @@ const handleImageClick = () => {
    };
 
 const handleSubmit = async() => {
-     console.log({image, title, description});
      const reportData ={
           title,
           image,
@@ -41,13 +41,12 @@ const handleSubmit = async() => {
      };
 
      try{
-          const response = await axios.post('http://localhost:3001/reports', reportData);
+          const response = await submitReport(reportData);
           if (response.status === 201) {
                console.log('Report submitted successfully');
                setImage(null);
                setTitle('');
                setDescription('');
-
                router.push("/home-page");
           }else{
                console.error('Failed to submit report')

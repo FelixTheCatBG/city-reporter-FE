@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ReportCard from '../components/report-card';
 import { getReports } from './reportsService';
+import Link from "next/link";
 import styles from './homePageStyle';
 
 const HomePage = () => {
@@ -32,7 +33,9 @@ const HomePage = () => {
           <Box sx={styles.searchContainer}>
             <TextField id="search" label="Search" variant="outlined" size="small" sx={styles.searchInput} />
             <Button variant="contained" sx={styles.goButton}>GO</Button>
-            <Button variant="contained" sx={styles.createButton}>CREATE NEW</Button>
+            <Link href="/new-reports">
+              <Button variant="contained" sx={styles.createButton}>CREATE NEW</Button>
+            </Link>
           </Box>
           {loading ? (
             <p>Loading...</p>

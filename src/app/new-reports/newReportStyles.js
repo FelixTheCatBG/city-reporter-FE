@@ -1,0 +1,88 @@
+const styles = {
+     container: {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: '2rem',
+          backgroundColor: 'lightgrey',
+          minHeight: '100vh',
+     },
+     title: {
+          color: 'black',
+          alignSelf: 'flex-start',
+          marginLeft: '10%',
+          marginBottom: '0.5rem',
+     },
+     formContainer: {
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          marginBottom: '2rem',
+          width: '80%',
+          gap: 2,
+     },
+     imageContainer: {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginRight: '2rem',
+          width: '30%',
+          height: '300px',
+          border: '2px dashed #ccc',
+          borderRadius: '4px',
+          backgroundColor: '#f0f0f0',
+          cursor: 'pointer',
+          position: 'relative',
+     },
+     imagePreview: {
+          width: '100%',
+          objectFit: 'cover',
+          marginBottom: '1rem',
+          borderRadius: '4px',
+     },
+     imagePlaceholder: {
+          width: '100%',
+          height: '300px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#f0f0f0',
+          color: '#aaa',
+          marginBottom: '1rem',
+          borderRadius: '4px',
+          textAlign: 'center',
+     },
+     titleInput: {
+          width: '65%',
+          height: '300px',
+          backgroundColor: 'white',
+          '& .MuiOutlinedInput-root': {
+               height: '100%',
+               alignItems: 'flex-start',
+          },
+     },
+     descriptionInput: {
+          width: '80%',
+          marginBottom: '2rem',
+          backgroundColor: 'white',
+     },
+     buttonContainer: {
+          display: 'flex',
+          justifyContent: 'flex-end',
+          width: '80%',
+          gap: '1rem',
+     },
+     submitButton: {
+          backgroundColor: 'blue',
+          color: 'white',
+          marginTop: 2,
+     },
+     cancelButton: {
+          backgroundColor: '#555',
+          color: 'white',
+          marginTop: 2,
+     },
+   };
+
+   export default styles;

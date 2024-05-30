@@ -5,11 +5,13 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ReportCard from '../components/report-card';
 import { getReports } from './reportsService';
+import { useRouter } from 'next/navigation';
 import styles from './homePageStyle';
 
 const HomePage = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const fetchReports = async () => {
     try {
@@ -27,6 +29,10 @@ const HomePage = () => {
     fetchReports();
   }, []);
 
+  const handleReportClick = (reportId) => {
+    router.push(`/reports/${reportId}`);
+  };
+
   return (
         <Box sx={styles.container}>
           <Box sx={styles.searchContainer}>
@@ -40,7 +46,11 @@ const HomePage = () => {
 
           <Box sx={styles.gridContainer}>
             {reports.map((report) => (
-              <ReportCard key={report.id} imageUrl={report.image} title={report.title} />
+              <ReportCard
+              key={report.id}
+              imageUrl={report.image}
+              title={report.title}
+              onClick={() => handleReportClick(report.id)}/>
             ))}
           </Box>
           )}

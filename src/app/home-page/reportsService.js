@@ -13,3 +13,23 @@ export const getReports = async () => {
           throw error;
      }
 };
+
+export const getReportById = async (id) => {
+     try {
+       const response = await client.get(`/reports/${id}`);
+       return response.data;
+     } catch (error) {
+       console.error('Error fetching report:', error);
+       throw error;
+     }
+   };
+
+   export const getCommentsByReportId = async (reportId) => {
+     try {
+       const response = await client.get(`/comments?reportId=${reportId}`);
+       return response.data;
+     } catch (error) {
+       console.error('Error fetching comments:', error);
+       throw error;
+     }
+   };

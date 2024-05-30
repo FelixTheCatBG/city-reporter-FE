@@ -24,6 +24,7 @@
     "react-router-dom": "^5.3.4"
   },
   "devDependencies": {
+    "@types/node": "20.12.13",
     "@types/react-router-dom": "^5.3.3",
     "autoprefixer": "^10.0.1",
     "concurrently": "^8.2.2",
